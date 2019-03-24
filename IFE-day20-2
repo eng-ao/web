@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sprite帧动画</title>
+
+    <style type="text/css">
+        #smile {
+        	width: 480px;
+        	height: 468px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="smile"></div>
+	
+
+
+	<script type="text/javascript">
+        var imgUrl = './images/erik_ce204002.jpg';
+        var positions = ['0 0','0 -480','0 -960','0 -1440','0 -1920','0 -2400','0 -2880','0 -3360','0 -3840','0 -4320','0 -4800','0 -5280','0 -5760','0 -6240','0 -6720','0 -7200','0 -7680'];
+        var ele = document.getElementById('smile');
+
+        animation(ele,positions,imgUrl);
+
+        function animation(ele,positions,imgUrl){
+            ele.style.backgroundImage = 'url(' + imgUrl + ')';
+            ele.style.backgroundRepeat = 'no-repeat';
+
+            var index = 0; //利用一个索引来记录他当前的位置
+
+            function run(){
+
+                var position = positions[index].split(' '); //split()方法: 把position获取到的字符串，以空格指定分割成字符串数组，即一个position[0]一个position[1]
+                ele.style.backgroundPosition = position[0]+'px '+position[1]+'px';
+                index++;
+                if (index>=positions.length) {
+                	index = 0;
+                }
+            	setTimeout(run, 80);
+            }
+            run();
+        }
+	</script>
+
+
+</body>
+</html>
