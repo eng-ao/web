@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>IFE ECMAScript</title>
+    <title>邮箱提示</title>
     <style>
         .email-sug {
             list-style-type: none;
