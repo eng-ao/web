@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数据报表筛选-单选</title>
+</head>
+<body>
+
+    <div id="area-select">
+        <select id="area">
+            <option value="0">请选择</option>
+            <option value="1">华东</option>
+            <option value="2">华南</option>
+            <option value="3">华北</option>
+        </select>
+
+        <select id="good">
+            <option value="0">请选择</option>
+            <option value="1">手机</option>
+            <option value="2">笔记本</option>
+            <option value="3">智能音箱</option>
+        </select>
+    </div>
+
+    <div id="table-wrapper">
+        
+    </div>
+    
+	
+	<script type="text/javascript">
+let sourceData = [{
+    product: "手机",
+    region: "华东",
+    sale: [120, 100, 140, 160, 180, 185, 190, 210, 230, 245, 255, 270]
+}
+, {
+    product: "手机",
+    region: "华南",
+    sale: [220, 200, 240, 250, 260, 270, 280, 295, 310, 335, 355, 380]
+}, {
+    product: "笔记本",
+    region: "华东",
+    sale: [50, 60, 80, 110, 30, 20, 70, 30, 420, 30, 20, 20]
+}, {
+    product: "笔记本",
+    region: "华北",
+    sale: [30, 35, 50, 70, 20, 15, 30, 50, 710, 130, 20, 20]
+}, {
+    product: "笔记本",
+    region: "华南",
+    sale: [80, 120, 130, 140, 70, 75, 120, 90, 550, 120, 110, 100]
+}, {
+    product: "智能音箱",
+    region: "华东",
+    sale: [10, 30, 4, 5, 6, 5, 4, 5, 6, 5, 5, 25]
+}, {
+    product: "智能音箱",
+    region: "华北",
+    sale: [15, 50, 15, 15, 12, 11, 11, 12, 12, 14, 12, 40]
+}, {
+    product: "智能音箱",
+    region: "华南",
+    sale: [10, 40, 10, 6, 5, 6, 8, 6, 6, 6, 7, 26]
+}]
+        
+
+        var date = new Array();
+        var div = document.getElementById('area-select');
+        
+        //创建表格table，并创建表头。
+        var table = document.createElement('table');
+        div.appendChild(table);
+        var head = ['商品','地区','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+            var tr1 = document.createElement('tr');
+            table.appendChild(tr1);
+            for (var i = 0; i < 14; i++) {
+                var  th = document.createElement('th');
+                th.innerHTML = head[i]
+                tr1.appendChild(th); 
+            }
+        
+        //onchange事件
+        div.onchange = function(){
+        	newTable();
+        }
+
+        //根据表单选项获取数据
+        function getinfor(){
+        	var Selected1 = selectArea();
+        	var Selected2 = selectGood();
+        	
+            for (var i = 0; i < sourceData.length; i++) {
+            	if (sourceData[i].region == Selected1 && sourceData[i].product == Selected2) {
+            		date.push(sourceData[i]);                    
+            	}
+            }
+            return date;
+        }
+
+        //当前选中地区
+        function selectArea(){
+        	var area = document.getElementById('area');
+        	//获得该下拉框所有的option的节点对象,得到的options是一个对象数组
+        	var options = area.options;
+        	//获得当前选中的option的索引
+        	var index = area.selectedIndex;
+        	var selectedText = options[index].text;
+        	return selectedText;
+        }
+
+        //当前选中商品
+        function selectGood(){
+        	var good = document.getElementById('good');
+        	//获得该下拉框所有的option的节点对象,得到的options是一个对象数组
+        	var options = good.options;
+        	//获得当前选中的option的索引
+        	var index = good.selectedIndex;
+        	var selectedText = options[index].text;
+        	return selectedText;
+        }
+
+        //渲染新的表格        
+        function newTable(){
+        	//清除之前生成的表格
+            var len = table.childNodes.length;
+            for (var i= len-1;i>0;i--) {
+            	table.removeChild(table.childNodes[i]);
+            }
+        	
+        	//调用getinfor()得到date，生成新的表格
+            getinfor();                        
+            var tdDate = Array();
+            var line = date.length;
+                                               
+            for (var i = 0; i < line; i++) {            	
+            	tdDate = objtoarr(date[i]);
+            	var tr = document.createElement('tr');                 
+            	for (var j = 0; j < tdDate.length; j++) {
+            		var td = document.createElement('td');
+                    td.innerHTML = tdDate[j];
+                    tr.appendChild(td);
+            	}	
+            	table.appendChild(tr);
+            	tdDate = [];  //tdDate置空
+            }
+            date = [];  //date置空
+        }
+
+        //对象转数组
+        function objtoarr(obj){
+        	var {product,region,sale:[a,b,c,d,e,f,g,h,i,j,k,l]} = obj;
+        	var arr = [product,region,a,b,c,d,e,f,g,h,i,j,k,l];
+        	return arr;                          
+        }
+        
+              
+	</script>
+</body>
+</html>
