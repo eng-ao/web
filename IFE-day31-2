@@ -99,13 +99,9 @@ let sourceData = [{
         			arr2.push(select2[i]);
         		}
         	}
-
-        	if (arr1.length == '3' && arr2.length == '3') {
-                checkAllAll();
-        	}
-        	else{
-                check();
-        	}
+       	
+            check();
+        	
         	arr1 = [];
         	arr2 = [];
         }
@@ -166,18 +162,7 @@ let sourceData = [{
         	}
         }
 
-
-
-
-        //全选处理方案
-        function checkAllAll(){
-            for (var i = 0; i < sourceData.length; i++) {            	
-            		date.push(sourceData[i]);                                	
-            }
-            newTable();
-        }
-
-        //子选项对应逻辑
+        //当前选中
         function check(){            
             for (var i = 0; i < sourceData.length; i++) {
             	for (var j = 0; j < arr1.length; j++) {
