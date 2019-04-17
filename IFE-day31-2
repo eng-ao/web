@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数据报表筛选-多选(全选或取消全选)</title>
+</head>
+<body>
+	<div id="choose">
+    <div id="area-select">
+        <span><input type="checkbox" name="select1" value="华东" onclick="checkit1(this)">华东</span>
+        <span><input type="checkbox" name="select1" value="华南" onclick="checkit1(this)">华南</span>
+        <span><input type="checkbox" name="select1" value="华北" onclick="checkit1(this)">华北</span> 
+        <span><input type="checkbox" name="checkallone" value="全选" onclick="checkall1(this)">全选</span>       
+    </div>
+
+    <div id="good-select">
+        <span><input type="checkbox" name="select2" value="笔记本" onclick="checkit2(this)">笔记本</span>
+        <span><input type="checkbox" name="select2" value="手机" onclick="checkit2(this)">手机</span>
+        <span><input type="checkbox" name="select2" value="智能音箱" onclick="checkit2(this)">智能音响</span>
+        <span><input type="checkbox" name="checkalltwo" value="全选" onclick="checkall2(this)">全选</span> 
+    </div>
+    </div>
+
+    <div id="table-wrapper">
+        
+    </div>
+
+
+    <script type="text/javascript">
+let sourceData = [{
+    product: "手机",
+    region: "华东",
+    sale: [120, 100, 140, 160, 180, 185, 190, 210, 230, 245, 255, 270]
+}
+, {
+    product: "手机",
+    region: "华南",
+    sale: [220, 200, 240, 250, 260, 270, 280, 295, 310, 335, 355, 380]
+}, {
+    product: "笔记本",
+    region: "华东",
+    sale: [50, 60, 80, 110, 30, 20, 70, 30, 420, 30, 20, 20]
+}, {
+    product: "笔记本",
+    region: "华北",
+    sale: [30, 35, 50, 70, 20, 15, 30, 50, 710, 130, 20, 20]
+}, {
+    product: "笔记本",
+    region: "华南",
+    sale: [80, 120, 130, 140, 70, 75, 120, 90, 550, 120, 110, 100]
+}, {
+    product: "智能音箱",
+    region: "华东",
+    sale: [10, 30, 4, 5, 6, 5, 4, 5, 6, 5, 5, 25]
+}, {
+    product: "智能音箱",
+    region: "华北",
+    sale: [15, 50, 15, 15, 12, 11, 11, 12, 12, 14, 12, 40]
+}, {
+    product: "智能音箱",
+    region: "华南",
+    sale: [10, 40, 10, 6, 5, 6, 8, 6, 6, 6, 7, 26]
+}];
+
+
+        var date = new Array();
+        var arr1 = new Array();
+        var arr2 = new Array();
+        var div1 = document.getElementById('choose');
+        var div2 = document.getElementById('table-wrapper');
+        
+        
+        
+        //创建表格table，并创建表头。
+        var table = document.createElement('table');
+        div2.appendChild(table);
+        var head = ['商品','地区','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+        var tr1 = document.createElement('tr');
+        table.appendChild(tr1);
+        for (var i = 0; i < 14; i++) {
+            var  th = document.createElement('th');
+            th.innerHTML = head[i]
+            tr1.appendChild(th); 
+        }
+
+        //onchange事件
+        div1.onchange = function (){
+        	var select1 = document.getElementsByName('select1');
+            var select2 = document.getElementsByName('select2');
+        	    	
+        	//获取当前选中数量
+        	for (var i = 0; i < select1.length; i++) {
+        		if (select1[i].checked) {
+        			arr1.push(select1[i]);
+        		}
+        	}
+        	for (var i = 0; i < select2.length; i++) {
+        		if (select2[i].checked) {
+        			arr2.push(select2[i]);
+        		}
+        	}
+
+        	if (arr1.length == '3' && arr2.length == '3') {
+                checkAllAll();
+        	}
+        	else{
+                check();
+        	}
+        	arr1 = [];
+        	arr2 = [];
+        }
+
+        //全选按钮
+        function checkall1(obj){
+        	var select1 = document.getElementsByName('select1');
+        	for (var i = 0; i < select1.length; i++) {
+        		select1[i].checked = obj.checked;
+        	}
+        }
+
+        function checkall2(obj){
+        	var select2 = document.getElementsByName('select2');
+        	for (var i = 0; i < select2.length; i++) {
+        		select2[i].checked = obj.checked;
+        	}
+        }
+
+        //子选项按钮
+        function checkit1(obj){
+        	var select1 = document.getElementsByName('select1');
+        	var checkall1 = document.getElementsByName('checkallone');
+        	if (obj.checked == false) {
+        		checkall1[0].checked = false;
+        	}
+        	else{
+        		var n = 0;
+        		for (var i = 0; i < select1.length; i++) {
+        			if (select1[i].checked == false) {
+        				n = 1;
+        				break;
+        			}
+        		}
+        		if (n == 0) {
+        			checkall1[0].checked = true;
+        		}
+        	}
+        }
+
+        function checkit2(obj){
+        	var select2 = document.getElementsByName('select2');
+        	var checkall2 = document.getElementsByName('checkalltwo');
+        	if (obj.checked == false) {
+        		checkall2[0].checked = false;
+        	}
+        	else{
+        		var n = 0;
+        		for (var i = 0; i < select2.length; i++) {
+        			if (select2[i].checked == false) {
+        				n = 1;
+        				break;
+        			}
+        		}
+        		if (n == 0) {
+        			checkall2[0].checked = true;
+        		}
+        	}
+        }
+
+
+
+
+        //全选处理方案
+        function checkAllAll(){
+            for (var i = 0; i < sourceData.length; i++) {            	
+            		date.push(sourceData[i]);                                	
+            }
+            newTable();
+        }
+
+        //子选项对应逻辑
+        function check(){            
+            for (var i = 0; i < sourceData.length; i++) {
+            	for (var j = 0; j < arr1.length; j++) {
+            		for (var x = 0; x < arr2.length; x++) {
+            			if (sourceData[i].region == arr1[j].value && sourceData[i].product == arr2[x].value) {
+                            date.push(sourceData[i]);
+        		        }
+            		}
+        		    
+        	    }
+            }
+            newTable();
+        }
+  
+
+        //渲染新的表格        
+        function newTable(){
+        	//清除之前生成的表格
+            var len = table.childNodes.length;
+            for (var i= len-1;i>0;i--) {
+            	table.removeChild(table.childNodes[i]);
+            }
+                                   
+            var tdDate = Array();
+            var line = date.length;
+                                               
+            for (var i = 0; i < line; i++) {            	
+            	tdDate = objtoarr(date[i]);
+            	var tr = document.createElement('tr');                 
+            	for (var j = 0; j < tdDate.length; j++) {
+            		var td = document.createElement('td');
+                    td.innerHTML = tdDate[j];
+                    tr.appendChild(td);
+            	}	
+            	table.appendChild(tr);
+            	tdDate = [];  //tdDate置空
+            }
+            date = [];  //date置空
+        }
+
+        //对象转数组
+        function objtoarr(obj){
+        	var {product,region,sale:[a,b,c,d,e,f,g,h,i,j,k,l]} = obj;
+        	var toarr = [product,region,a,b,c,d,e,f,g,h,i,j,k,l];
+        	return toarr;                          
+        }
+    </script>
+</body>
+</html>
